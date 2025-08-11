@@ -5,6 +5,12 @@ const cors = require('cors')
 const connectDB = require('./config/db')
 const { Server } = require('socket.io')
 
+const corsOptions = {
+  origin: 'https://groupchatclient.vercel.app',
+  methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server, {
@@ -17,7 +23,7 @@ const io = new Server(server, {
 require('./socket')(io);
 
 // middleware
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // Routes
