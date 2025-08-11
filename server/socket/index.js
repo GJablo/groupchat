@@ -23,13 +23,13 @@ module.exports = (io) => {
       })
 
       // Send Message
-      socket.on('sendMessage', async (message) => {
+      socket.on('sendMessage', async (data) => {
         const message = await Message.create({
           sender: user._id,
           room: roomId,
-          content: message
+          content: data
         });
-        const fullMessage = await message.populate('sender', 'username').execPopulate();
+        const fullMessage = await message.populate('sender', 'username');
         io.to(roomId).emit('newMessage', fullMessage);
       })
 
