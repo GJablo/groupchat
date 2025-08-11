@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRooms, socket, getRoomMessages } from '../services/api'
+import { getRooms, createRoom, socket, getRoomMessages } from '../services/api'
 import ChatRoom from '../components/ChatRoom'
 
 const Home = ({ user }) => {
@@ -15,8 +15,12 @@ const Home = ({ user }) => {
   }, []);
 
   const fetchRooms = async () => {
+    try {
     const res = await getRooms();
     setRooms(res.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleJoinRoom = async (room) => {
@@ -32,9 +36,11 @@ const Home = ({ user }) => {
         <h2 className='text-lg mb-2'>Rooms</h2>
         <ul>
           {rooms.map((room) => {
+            return (
             <li key={room._id} className='mb-2'>
               <button onClick={() => handleJoinRoom(room)} className='w-full bg-gray-700 p-2 rounded hover:bg-gray-600'>{room.name}</button>
             </li>
+            )
           })}
         </ul>
       </aside>
