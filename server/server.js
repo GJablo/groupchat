@@ -27,3 +27,6 @@ app.use('/api/messages', require('./routes/messageRoutes'))
 
 // connect database and start
 connectDB()
+
+const PORT = process.env.PORT || 5000
+server.listen(PORT, () => console.log(`Server started on port ${PORT}`))
