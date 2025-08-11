@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRooms, createRoom, socket, getRoomMessages } from '../server/controllers/roomController'
+import { getRooms, socket, getRoomMessages } from '../services/api'
 import ChatRoom from '../components/ChatRoom'
 
 const Home = ({ user }) => {
