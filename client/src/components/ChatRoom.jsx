@@ -4,11 +4,12 @@ const ChatRoom = ({ room, messages, user, socket }) => {
 
   const [chat, setChat] = useState('')
   const [typingUser, setTypingUser] = useState('')
+  const [chatMessages, setChatMessages] = useState(messages || []);
   const msgRef = useRef()
 
   useEffect(() => {
     socket.on('newMessage', (msg) => {
-      msgRef.current.innerHTML += <p><strong>${msg.sender.username}</strong>: ${msg.content}</p>
+      setChatMessages((prev) => [...prev, msg])
     });
     socket.on('typing', (username) => {
       setTypingUser(username)
@@ -36,8 +37,8 @@ const ChatRoom = ({ room, messages, user, socket }) => {
     <div>
       <h2 className='text-2xl mb-2'>{room.name}</h2>
       <div className='h-64 overflow-y-auto border mb-2 bg-gray-50' ref={msgRef}>
-        {messages.map((msg) => (
-          <p key={msg._id}>
+        {chatMessages.map((msg) => (
+          <p key={msg._id || Math.random()}>
             <strong>{msg.sender.username}:</strong> {msg.content}
           </p>
         ))}
